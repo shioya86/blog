@@ -1,0 +1,71 @@
+---
+title: "Next.js App Router で SSG を実装する"
+date: "2026-02-19"
+tags: ["Next.js", "TypeScript", "React"]
+description: "Next.js App Router における静的サイト生成（SSG）の実装方法を解説します。generateStaticParams と cache を使った効率的なビルドについて。"
+---
+
+## SSG とは
+
+Static Site Generation（SSG）は、ビルド時にページを HTML として事前生成する手法です。
+リクエストのたびにサーバーサイドで処理しないため、高速なページ配信が可能になります。
+
+## App Router での SSG
+
+Next.js App Router では、`generateStaticParams` を使って動的ルートを静的生成します。
+
+```typescript
+// app/posts/[slug]/page.tsx
+
+export async function generateStaticParams() {
+  const posts = getAllPosts()
+  return posts.map((post) => ({ slug: post.slug }))
+}
+
+export default async function PostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const post = getPostBySlug(slug)
+  return <article>{/* ... */}</article>
+}
+```
+
+## cache 関数による最適化
+
+`cache` を使うと、同じビルド内での重複したデータ取得を防げます。
+
+```typescript
+import { cache } from "react"
+import { getAllPosts } from "@/lib/posts"
+
+export const getCachedPosts = cache(getAllPosts)
+```
+
+## ファイルベースのコンテンツ
+
+DB を持たず MDX ファイルをコンテンツとして使う場合、`fs` モジュールでファイルを読み込みます。
+
+```typescript
+import fs from "fs"
+import path from "path"
+import matter from "gray-matter"
+
+const postsDir = path.join(process.cwd(), "src/content/posts")
+
+export function getAllPosts() {
+  const files = fs.readdirSync(postsDir)
+  return files
+    .filter((f) => f.endsWith(".mdx"))
+    .map((file) => {
+      const content = fs.readFileSync(path.join(postsDir, file), "utf8")
+      const { data } = matter(content)
+      return { slug: file.replace(".mdx", ""), ...data }
+    })
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
+}
+```
+
+これによりビルド時に全記事が静的生成されます。
