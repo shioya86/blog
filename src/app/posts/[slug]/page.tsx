@@ -49,7 +49,12 @@ export default async function PostPage({ params }: Props) {
     <>
       <article className="py-8">
         <header className="mb-8">
-          <time className="text-sm text-zinc-500">{post.date}</time>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-zinc-500">
+            <time dateTime={post.date}>公開: {post.date}</time>
+            {post.updatedAt && (
+              <time dateTime={post.updatedAt}>更新: {post.updatedAt}</time>
+            )}
+          </div>
           <h1 className="mt-1 text-3xl font-bold tracking-tight">{post.title}</h1>
           {post.tags.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
