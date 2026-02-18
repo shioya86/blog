@@ -7,6 +7,9 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeShiki from "@shikijs/rehype";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
+import { extractH2Headings } from "@/lib/toc";
+import { TableOfContents } from "@/components/TableOfContents";
+import { TocDrawer } from "@/components/TocDrawer";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -40,50 +43,65 @@ export default async function PostPage({ params }: Props) {
     notFound();
   }
 
+  const headings = extractH2Headings(post.content);
+
   return (
-    <article className="py-8">
-      <header className="mb-8">
-        <time className="text-sm text-zinc-500">{post.date}</time>
-        <h1 className="mt-1 text-3xl font-bold tracking-tight">{post.title}</h1>
-        {post.tags.length > 0 && (
-          <div className="mt-4 flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <Link
-                key={tag}
-                href={`/tags/${encodeURIComponent(tag)}`}
-                className="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-              >
-                {tag}
-              </Link>
-            ))}
-          </div>
-        )}
-      </header>
+    <>
+      <article className="py-8">
+        <header className="mb-8">
+          <time className="text-sm text-zinc-500">{post.date}</time>
+          <h1 className="mt-1 text-3xl font-bold tracking-tight">{post.title}</h1>
+          {post.tags.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/tags/${encodeURIComponent(tag)}`}
+                  className="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
+          )}
+        </header>
 
-      <div className="prose prose-zinc dark:prose-invert max-w-none">
-        <MDXRemote
-          source={post.content}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkGfm],
-              rehypePlugins: [
-                rehypeSlug,
-                [rehypeAutolinkHeadings, { behavior: "wrap" }],
-                [rehypeShiki, { theme: "github-dark" }],
-              ],
-            },
-          }}
-        />
-      </div>
+        <div className="prose prose-zinc dark:prose-invert max-w-none">
+          <MDXRemote
+            source={post.content}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm],
+                rehypePlugins: [
+                  rehypeSlug,
+                  [rehypeAutolinkHeadings, { behavior: "wrap" }],
+                  [rehypeShiki, { theme: "github-dark" }],
+                ],
+              },
+            }}
+          />
+        </div>
 
-      <footer className="mt-12 pt-8 border-t border-zinc-100 dark:border-zinc-800">
-        <Link
-          href="/"
-          className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-        >
-          ← 記事一覧へ
-        </Link>
-      </footer>
-    </article>
+        <footer className="mt-12 pt-8 border-t border-zinc-100 dark:border-zinc-800">
+          <Link
+            href="/"
+            className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+          >
+            ← 記事一覧へ
+          </Link>
+        </footer>
+      </article>
+
+      {/* xl 未満：右端のアイコンボタン → スライドインパネル */}
+      <TocDrawer headings={headings} />
+
+      {/* xl 以上：コンテンツ右の空白に固定サイドバー */}
+      <aside
+        className="hidden xl:block fixed top-1/3 w-52 max-h-[calc(100vh/3*2)] overflow-y-auto"
+        style={{ left: "calc(50% + 23rem)" }}
+      >
+        <TableOfContents headings={headings} />
+      </aside>
+    </>
   );
 }
