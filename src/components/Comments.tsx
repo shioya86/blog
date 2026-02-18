@@ -16,7 +16,7 @@ export function Comments() {
       inputPosition="top"
       theme="preferred_color_scheme"
       lang="ja"
-      loading="lazy"
+      loading="eager"
     />
   );
 }
