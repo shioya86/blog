@@ -10,6 +10,7 @@ import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { extractH2Headings } from "@/lib/toc";
 import { TableOfContents } from "@/components/TableOfContents";
 import { TocDrawer } from "@/components/TocDrawer";
+import { Comments } from "@/components/Comments";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -87,7 +88,11 @@ export default async function PostPage({ params }: Props) {
           />
         </div>
 
-        <footer className="mt-12 pt-8 border-t border-zinc-100 dark:border-zinc-800">
+        <section className="mt-16 pt-8 border-t border-zinc-100 dark:border-zinc-800">
+          <Comments />
+        </section>
+
+        <footer className="mt-8">
           <Link
             href="/"
             className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
