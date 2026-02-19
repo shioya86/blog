@@ -51,6 +51,15 @@ export default async function PostPage({ params }: Props) {
   return (
     <>
       <article className="py-6">
+        <div className="mb-3">
+          <Link
+            href="/"
+            className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+          >
+            ← 記事一覧へ
+          </Link>
+        </div>
+
         <header className="mb-6 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 px-6 py-5">
           <h1 className="text-3xl font-bold tracking-tight">{post.title}</h1>
           <Author />
