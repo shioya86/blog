@@ -8,7 +8,7 @@ export default function Home() {
     <div className="py-4">
       <ul className="divide-y divide-zinc-100 dark:divide-zinc-800">
         {posts.map((post) => (
-          <li key={post.slug} className="relative py-8">
+          <li key={post.slug} className="relative py-5">
             <article>
               <time className="text-sm text-zinc-500">{post.date}</time>
               <h2 className="mt-1 text-xl font-semibold">

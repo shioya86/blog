@@ -1,0 +1,212 @@
+---
+title: "Markdown 記法サンプル集"
+date: "2026-02-19"
+tags: ["TypeScript", "React", "Next.js", "雑記"]
+description: "このブログで使える Markdown / MDX の記法をすべて網羅したサンプル記事です。見出し・コード・テーブル・引用など各要素の表示確認用としても使えます。"
+---
+
+## 見出し
+
+### H3 見出し
+
+H2 は目次（TOC）に表示されます。H3 以下はセクション内の小見出しとして使います。
+
+#### H4 見出し
+
+H4 以下はさらに細かい分類に使いますが、使いすぎると構造が複雑になるため注意が必要です。
+
+---
+
+## テキスト装飾
+
+通常のテキストに加えて、**太字**・*イタリック*・~~打ち消し線~~ が使えます。
+インラインコードは `const foo = "bar"` のように表示されます。
+
+リンクは [Next.js 公式ドキュメント](https://nextjs.org/docs) のように記述します。
+
+---
+
+## コードブロック
+
+### TypeScript
+
+```typescript
+type Post = {
+  slug: string;
+  title: string;
+  date: string;
+  tags: string[];
+};
+
+async function fetchPost(slug: string): Promise<Post> {
+  const res = await fetch(`/api/posts/${slug}`);
+  if (!res.ok) throw new Error("Not found");
+  return res.json();
+}
+```
+
+### JavaScript
+
+```javascript
+const greet = (name) => {
+  console.log(`Hello, ${name}!`);
+};
+
+greet("world");
+```
+
+### JSX / React
+
+```jsx
+export function Card({ title, description }) {
+  return (
+    <div className="rounded-lg border p-4">
+      <h2 className="font-bold">{title}</h2>
+      <p className="text-sm text-gray-500">{description}</p>
+    </div>
+  );
+}
+```
+
+### Bash
+
+```bash
+# 依存関係のインストール
+yarn install
+
+# 開発サーバーの起動
+yarn dev
+
+# プロダクションビルド
+yarn build && yarn start
+```
+
+### JSON
+
+```json
+{
+  "name": "my-blog",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "^16.0.0",
+    "react": "^19.0.0"
+  }
+}
+```
+
+### CSS
+
+```css
+.prose pre {
+  position: relative;
+  padding-top: 2rem;
+}
+
+.prose pre::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  font-size: 0.7rem;
+  color: #8b949e;
+}
+```
+
+### SQL
+
+```sql
+SELECT
+  posts.slug,
+  posts.title,
+  COUNT(comments.id) AS comment_count
+FROM posts
+LEFT JOIN comments ON posts.id = comments.post_id
+WHERE posts.published = true
+GROUP BY posts.id
+ORDER BY posts.created_at DESC
+LIMIT 10;
+```
+
+---
+
+## リスト
+
+### 箇条書き
+
+- Next.js — React フレームワーク
+- TypeScript — 型安全な JavaScript
+- Tailwind CSS — ユーティリティファーストの CSS
+  - v4 では CSS ファイルで設定を記述
+  - JIT モードがデフォルト
+
+### 番号付きリスト
+
+1. リポジトリをクローンする
+2. `yarn install` で依存関係をインストール
+3. `.env.local` を作成して環境変数を設定
+4. `yarn dev` で開発サーバーを起動
+
+### タスクリスト
+
+- [x] Next.js プロジェクトのセットアップ
+- [x] MDX によるコンテンツ管理
+- [x] シンタックスハイライト（Shiki）
+- [x] 目次（TOC）の実装
+- [x] giscus コメント機能
+- [ ] 検索機能
+- [ ] OGP 画像の自動生成
+
+---
+
+## テーブル
+
+### パッケージ比較
+
+| パッケージ | 用途 | バージョン |
+|---|---|---|
+| `next` | フレームワーク | 16.x |
+| `next-mdx-remote` | MDX レンダリング | 5.x |
+| `gray-matter` | frontmatter パース | 4.x |
+| `@shikijs/rehype` | シンタックスハイライト | 3.x |
+| `@giscus/react` | コメント機能 | 3.x |
+
+### HTTP メソッド一覧
+
+| メソッド | 用途 | べき等性 |
+|---|---|:---:|
+| GET | リソースの取得 | ✓ |
+| POST | リソースの作成 | ✗ |
+| PUT | リソースの置換 | ✓ |
+| PATCH | リソースの部分更新 | ✗ |
+| DELETE | リソースの削除 | ✓ |
+
+---
+
+## 引用
+
+> "Make it work, make it right, make it fast."
+>
+> — Kent Beck
+
+複数段落にわたる引用も可能です。
+
+> TypeScript の型システムは非常に強力で、実行時エラーの多くをコンパイル時に検出できます。
+>
+> 特に大規模なアプリケーション開発では、型安全性がコードの信頼性を大きく高めます。
+
+---
+
+## まとめ
+
+このサンプル記事では以下の要素を確認しました。
+
+- **見出し**（H2 〜 H4）
+- **テキスト装飾**（太字・イタリック・打ち消し線・インラインコード）
+- **コードブロック**（TypeScript・JavaScript・JSX・Bash・JSON・CSS・SQL）
+- **リスト**（箇条書き・番号付き・タスクリスト）
+- **テーブル**
+- **引用**

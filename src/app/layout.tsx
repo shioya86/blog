@@ -32,7 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background font-sans antialiased`}
       >
         <div className="mx-auto max-w-2xl px-4">
-          <header className="flex items-center justify-between py-8">
+          <header className="flex items-center justify-between py-5">
             <Link
               href="/"
               className="text-lg font-semibold tracking-tight hover:opacity-70 transition-opacity"
@@ -41,7 +41,7 @@ export default function RootLayout({
             </Link>
           </header>
           <main>{children}</main>
-          <footer className="py-12 text-sm text-zinc-500">
+          <footer className="py-8 text-sm text-zinc-500">
             © {new Date().getFullYear()} Blog
           </footer>
         </div>

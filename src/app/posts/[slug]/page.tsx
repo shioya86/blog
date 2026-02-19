@@ -11,6 +11,7 @@ import { extractH2Headings } from "@/lib/toc";
 import { TableOfContents } from "@/components/TableOfContents";
 import { TocDrawer } from "@/components/TocDrawer";
 import { Comments } from "@/components/Comments";
+import { Author } from "@/components/Author";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -48,8 +49,8 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <>
-      <article className="py-8">
-        <header className="mb-8">
+      <article className="py-6">
+        <header className="mb-6">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-zinc-500">
             <time dateTime={post.date}>公開: {post.date}</time>
             {post.updatedAt && (
@@ -57,6 +58,7 @@ export default async function PostPage({ params }: Props) {
             )}
           </div>
           <h1 className="mt-1 text-3xl font-bold tracking-tight">{post.title}</h1>
+          <Author />
           {post.tags.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
               {post.tags.map((tag) => (
@@ -81,14 +83,24 @@ export default async function PostPage({ params }: Props) {
                 rehypePlugins: [
                   rehypeSlug,
                   [rehypeAutolinkHeadings, { behavior: "wrap" }],
-                  [rehypeShiki, { theme: "github-dark" }],
+                  [rehypeShiki, {
+                    theme: "github-dark",
+                    transformers: [
+                      {
+                        pre(node: import("hast").Element) {
+                          const lang = (this as unknown as { options: { lang: string } }).options?.lang;
+                          if (lang) node.properties["data-language"] = lang;
+                        },
+                      },
+                    ],
+                  }],
                 ],
               },
             }}
           />
         </div>
 
-        <section className="mt-16 pt-8 border-t border-zinc-100 dark:border-zinc-800">
+        <section className="mt-10 pt-6 border-t border-zinc-100 dark:border-zinc-800">
           <Comments />
         </section>
 
