@@ -50,8 +50,7 @@ export function TocDrawer({ headings }: { headings: Heading[] }) {
       */}
       <nav
         aria-label="目次"
-        className={`xl:hidden fixed top-1/3 right-10 z-50 w-52
-          max-h-[calc(100vh-4rem)] overflow-y-auto
+        className={`xl:hidden fixed top-1/3 right-10 z-50 w-64
           rounded-lg border border-zinc-200 dark:border-zinc-700
           bg-white dark:bg-zinc-900
           px-5 py-4 shadow-lg
@@ -61,9 +60,9 @@ export function TocDrawer({ headings }: { headings: Heading[] }) {
         <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
           目次
         </p>
-        <ol className="mt-3 space-y-2.5">
+        <ol className="mt-3 space-y-2.5 max-h-[50vh] overflow-y-auto">
           {headings.map((h) => (
-            <li key={h.id}>
+            <li key={h.id} className={h.level === 3 ? "pl-3" : ""}>
               <a
                 href={`#${h.id}`}
                 onClick={() => setIsOpen(false)}

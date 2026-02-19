@@ -119,7 +119,7 @@ export default async function PostPage({ params }: Props) {
 
       {/* xl 以上：コンテンツ右の空白に固定サイドバー */}
       <aside
-        className="hidden xl:block fixed top-1/3 w-52 max-h-[calc(100vh/3*2)] overflow-y-auto"
+        className="hidden xl:block fixed top-1/3 w-64"
         style={{ left: "calc(50% + 23rem)" }}
       >
         <TableOfContents headings={headings} />

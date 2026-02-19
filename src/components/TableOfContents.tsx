@@ -12,9 +12,9 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
       <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
         目次
       </p>
-      <ol className="mt-3 space-y-2.5">
+      <ol className="mt-3 space-y-2.5 max-h-[50vh] overflow-y-auto">
         {headings.map((heading) => (
-          <li key={heading.id}>
+          <li key={heading.id} className={heading.level === 3 ? "pl-3" : ""}>
             <a
               href={`#${heading.id}`}
               className="block text-sm leading-snug text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
