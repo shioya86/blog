@@ -12,6 +12,7 @@ import { TableOfContents } from "@/components/TableOfContents";
 import { TocDrawer } from "@/components/TocDrawer";
 import { Comments } from "@/components/Comments";
 import { Author } from "@/components/Author";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -50,22 +51,22 @@ export default async function PostPage({ params }: Props) {
   return (
     <>
       <article className="py-6">
-        <header className="mb-6">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-zinc-500">
+        <header className="mb-6 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 px-6 py-5">
+          <h1 className="text-3xl font-bold tracking-tight">{post.title}</h1>
+          <Author />
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-zinc-500">
             <time dateTime={post.date}>公開: {post.date}</time>
             {post.updatedAt && (
               <time dateTime={post.updatedAt}>更新: {post.updatedAt}</time>
             )}
           </div>
-          <h1 className="mt-1 text-3xl font-bold tracking-tight">{post.title}</h1>
-          <Author />
           {post.tags.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-3 flex flex-wrap gap-2">
               {post.tags.map((tag) => (
                 <Link
                   key={tag}
                   href={`/tags/${encodeURIComponent(tag)}`}
-                  className="text-xs px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+                  className="text-xs px-2 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-300 dark:hover:bg-zinc-600 transition-colors"
                 >
                   {tag}
                 </Link>
@@ -85,6 +86,7 @@ export default async function PostPage({ params }: Props) {
                   [rehypeAutolinkHeadings, { behavior: "wrap" }],
                   [rehypeShiki, {
                     theme: "github-dark",
+                    inline: false,
                     transformers: [
                       {
                         pre(node: import("hast").Element) {
@@ -116,6 +118,8 @@ export default async function PostPage({ params }: Props) {
 
       {/* xl 未満：右端のアイコンボタン → スライドインパネル */}
       <TocDrawer headings={headings} />
+
+      <ScrollToTop />
 
       {/* xl 以上：コンテンツ右の空白に固定サイドバー */}
       <aside

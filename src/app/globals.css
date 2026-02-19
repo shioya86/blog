@@ -69,6 +69,27 @@ html {
   letter-spacing: 0.05em;
 }
 
+/* インラインコードのスタイル */
+.prose code:not(pre code) {
+  background-color: #e4e4e7 !important; /* zinc-200 */
+  color: inherit !important;
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem;
+  font-size: 0.85em !important;
+  font-weight: normal !important;
+}
+
+.prose code:not(pre code)::before,
+.prose code:not(pre code)::after {
+  content: none !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose code:not(pre code) {
+    background-color: #3f3f46 !important; /* zinc-700 */
+  }
+}
+
 /* prose の行間を調整（デフォルト 1.75 → 1.55）*/
 .prose {
   line-height: 1.55;
