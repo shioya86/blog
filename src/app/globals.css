@@ -29,6 +29,28 @@ html {
   scroll-behavior: smooth;
 }
 
+/* コードブロックのフォントサイズ・行間 */
+.prose pre {
+  font-size: 0.8em;
+  line-height: 1.5;
+}
+
+/* 行番号（CSS カウンター） */
+.prose pre code {
+  counter-reset: line;
+}
+
+.prose pre code .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 1.5rem;
+  margin-right: 1rem;
+  text-align: right;
+  color: #636e7b;
+  user-select: none;
+}
+
 /* コードブロックの言語バッジ */
 .shiki {
   position: relative;
